@@ -128,14 +128,16 @@ const particleAlphaChangeSpeed = 0.012
 // Music
 let backgroundAudio = null
 
-document.querySelector('#startGameEl').addEventListener('click', (event) => {
-  event.stopPropagation()
-  resetGame()
-  animate()
-  spawnEnemies()
-  modalEl.style.display = 'none'
-  new Audio('/music/startGame.mp3').play()
-})
+document
+  .querySelector('#startGameEl')
+  .addEventListener('click', (event) => {
+    event.stopPropagation()
+    resetGame()
+    animate()
+    spawnEnemies()
+    modalEl.style.display = 'none'
+    new Audio('./music/startGame.mp3').play()
+  })
 
 function resetGame() {
   player = new Player(playerX, playerY, 15, 'white')
@@ -150,7 +152,7 @@ function resetGame() {
   // play background music
   if (!backgroundAudio) {
     backgroundAudio = document.createElement('audio')
-    backgroundAudio.setAttribute('src', '/music/backgroundMusic.mp3')
+    backgroundAudio.setAttribute('src', './music/backgroundMusic.mp3')
     backgroundAudio.setAttribute('autoplay', 'autoplay')
     backgroundAudio.volume = 0.7
     backgroundAudio.play()
@@ -167,7 +169,7 @@ function resetGame() {
 }
 
 function gameover() {
-  new Audio('/music/endGame.mp3').play()
+  new Audio('./music/endGame.mp3').play()
   isGameover = true
   cancelAnimationFrame(animationId)
   modalScoreEl.innerHTML = score
@@ -290,7 +292,7 @@ function animate() {
           }, 0)
 
           // play hit effect audio
-          new Audio('/music/enemyHit.mp3').play()
+          new Audio('./music/enemyHit.mp3').play()
           increaseScore(100)
         } else {
           // remove enemy and projectile
@@ -300,7 +302,7 @@ function animate() {
             projectiles.splice(projectileIndex, 1)
 
             // play distroy effect audio
-            new Audio('/music/enemyEliminated.mp3').play()
+            new Audio('./music/enemyEliminated.mp3').play()
           }, 0)
 
           increaseScore(250)
@@ -313,7 +315,10 @@ function animate() {
 addEventListener('click', (event) => {
   if (isGameover) return
 
-  const angle = Math.atan2(event.clientY - playerY, event.clientX - playerX)
+  const angle = Math.atan2(
+    event.clientY - playerY,
+    event.clientX - playerX
+  )
   const velocity = {
     x: Math.cos(angle) * projectileAccelerator,
     y: Math.sin(angle) * projectileAccelerator,
@@ -324,5 +329,5 @@ addEventListener('click', (event) => {
   )
 
   // play fire effect audio
-  new Audio('/music/shoot.mp3').play()
+  new Audio('./music/shoot.mp3').play()
 })
